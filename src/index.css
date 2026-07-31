@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Peyda';
+  src: url('./assets/font/Peyda-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Peyda';
+  src: url('./assets/font/Peyda-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Peyda';
+  src: url('./assets/font/Peyda-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Peyda', sans-serif;
+  color: #333333;
+  background-color: #FAFBFE;
+}
+
+/* visible keyboard focus, per accessibility floor */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #5D7BD5;
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+/* hide scrollbar for the horizontal card carousel while keeping it scrollable */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---------------------------------------------------------------- */
+/* Unified button system — every button in the app uses one of these */
+/* so radius, padding, weight, and hover/focus behavior stay in sync */
+/* ---------------------------------------------------------------- */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5
+      text-sm font-medium text-white transition hover:bg-primary-dark active:scale-[0.98];
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-primary
+      bg-white px-5 py-2.5 text-sm font-medium text-primary transition hover:bg-primary hover:text-white active:scale-[0.98];
+  }
+  .btn-soft {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-surface-blue px-5 py-2.5
+      text-sm font-medium text-primary-dark transition hover:bg-primary/20 active:scale-[0.98];
+  }
+  .btn-icon {
+    @apply inline-flex items-center justify-center rounded-full border border-surface-blue p-2
+      text-ink/70 transition hover:border-primary hover:bg-surface-blue hover:text-primary active:scale-95;
+  }
+  .btn-link {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium text-ink/60 transition hover:text-primary;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
