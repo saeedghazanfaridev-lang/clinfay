@@ -8,7 +8,7 @@ export default function SuggestedCenters() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-10">
-      <div className="flex  items-stretch gap-4 lg:">
+      <div className="flex flex-col items-stretch gap-4 lg:flex-row">
         {/* decorative title banner, matches the original site's design */}
         <div className="flex shrink-0 flex-col items-center justify-center rounded-3xl bg-accent/10 p-6 text-center lg:w-64">
           <img src={boxIcon} alt="" aria-hidden="true" className="mb-4 h-16 w-auto" />
@@ -19,7 +19,7 @@ export default function SuggestedCenters() {
         </div>
 
         {/* clinic cards */}
-        <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="grid min-w-0 flex-1 grid-cols-1 gap-4 sm:grid-cols-3">
           {suggested.map((clinic) => (
             <ClinicCard key={clinic.id} clinic={clinic} className="w-full" />
           ))}

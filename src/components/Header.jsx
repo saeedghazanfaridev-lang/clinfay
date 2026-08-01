@@ -7,7 +7,8 @@ export default function Header() {
         <p className="text-ink/80">
           ورود به بخش اختصاصی <span className="font-medium text-primary">پزشکان و همکاران درمانی</span>
         </p>
-        <button className="btn-soft shadow-sm">
+
+        <button className="btn-soft shadow-sm shrink-0 whitespace-nowrap">
           <img src={loginIcon} alt="" aria-hidden="true" className="h-4 w-4" />
           <span>ورود به بخش</span>
         </button>

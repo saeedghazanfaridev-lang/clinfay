@@ -5,7 +5,7 @@ import { specialties, districts, visitTypes } from '../data/content'
 
 function FilterSelect({ label, value, onChange, options }) {
   return (
-    <label className="flex min-w-[9.5rem] flex-1 cursor-pointer flex-col gap-0.5 rounded-2xl px-4 py-2.5 transition hover:bg-surface-blue/60">
+    <label className="flex min-w-[9.5rem] flex-1 cursor-pointer flex-col gap-0.5 rounded-2xl px-4 py-2.5 transition hover:bg-surface-blue/60 sm:border-r sm:border-surface-blue sm:pe-4">
       <span className="text-xs text-ink/50">{label}</span>
       <select
         value={value}
@@ -42,12 +42,13 @@ export default function FilterBox() {
           <img src={searchIcon} alt="" aria-hidden="true" className="h-5 w-5" />
           <h3 className="font-medium text-ink">جست‌وجوی پزشک یا کلینیک</h3>
         </div>
+
         <div className="flex flex-col gap-2 divide-y divide-surface-blue sm:flex-row sm:items-center sm:divide-x sm:divide-x-reverse sm:divide-y-0">
           <FilterSelect label="تخصص" value={specialty} onChange={setSpecialty} options={specialties} />
           <FilterSelect label="منطقه (شیراز)" value={district} onChange={setDistrict} options={districts} />
           <FilterSelect label="نوع ویزیت" value={visitType} onChange={setVisitType} options={visitTypes} />
           <button type="submit" className="btn-primary mt-2 shrink-0 sm:mt-0">
-            <img src={imageSearch} alt="" aria-hidden="true" className="h-4 w-4 " />
+            <img src={imageSearch} alt="" aria-hidden="true" className="h-4 w-4" />
             جست‌وجو
           </button>
         </div>
