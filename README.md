@@ -1,25 +1,27 @@
 # Clinfay
 
-Clinfay is a Persian-language clinic discovery website concept. The current project focuses on the frontend experience for browsing healthcare centers and exploring clinic information.
+Clinfay is a Persian-language clinic discovery website project. It aims to help people explore healthcare centers and find relevant providers by medical specialty, location, and visit type.
 
-> **Project status:** In progress. The frontend is available, while the Python backend is planned and has not been implemented yet.
+> **Project status:** In progress. The current React frontend uses sample data. A Python backend is planned and has not been implemented yet.
 
-## About the Project
+## Project Background
 
-The goal of Clinfay is to make it easier for people to explore healthcare centers and, in future versions, find relevant providers using information such as medical specialty, location, and visit type.
+I originally started Clinfay when I was focused on frontend development and learning JavaScript. Since then, I have shifted my learning and career focus toward **backend development with Python**.
 
-The current frontend uses sample data. It is a work in progress, not a live medical directory or appointment-booking service.
+I am returning to this existing project to build its backend as a hands-on learning and portfolio project, then connect it to the current frontend through APIs. My goal is to understand and implement the backend step by step rather than present planned functionality as if it were already complete.
 
-## Current Features
+## Current Frontend
 
-- Persian-language interface and responsive page layout
+The current interface includes:
+
+- Persian-language, responsive page layout
 - Clinic cards with sample names, specialties, locations, and descriptions
 - UI controls for choosing a specialty, district, and visit type
 - Mobile navigation menu
-- Clinic-card carousel and separate homepage sections
+- Clinic-card carousel and homepage sections
 - Reusable React components and Tailwind CSS styling
 
-Some controls are currently presentation-only. The search form is not connected to a backend, and real clinic search, authentication, and appointment booking are not implemented.
+The frontend currently uses sample data. The search form is not connected to an API, and real clinic search, authentication, and appointment booking are not implemented.
 
 ## Technology Stack
 
@@ -44,7 +46,7 @@ Some controls are currently presentation-only. The search form is not connected 
    cd clinfay
    ```
 
-2. Install the dependencies:
+2. Install dependencies:
 
    ```bash
    npm install
@@ -56,7 +58,7 @@ Some controls are currently presentation-only. The search form is not connected 
    npm run dev
    ```
 
-4. Create a production build when needed:
+4. Build the project:
 
    ```bash
    npm run build
@@ -74,7 +76,7 @@ npm run preview
 src/
 ├── assets/       # Images, icons, and fonts
 ├── components/   # Reusable UI components
-├── data/         # Current sample content
+├── data/         # Sample frontend content
 ├── App.jsx       # Main page composition
 ├── index.css     # Global styles
 └── main.jsx      # React application entry point
@@ -82,24 +84,24 @@ src/
 
 ## Backend Roadmap
 
-A Python backend is planned as the next major phase of this project. It will be developed separately from the current frontend and connected through an API.
+The next major phase is to build a backend with Python and connect it to the existing frontend through an API.
 
-Planned areas of work include:
+Planned work:
 
-- Designing the data model for clinics, doctors, specialties, and locations
-- Choosing and setting up a Python backend framework and database
-- Building API endpoints for clinic data and search filters
-- Replacing frontend sample data with data fetched from the API
-- Adding authentication and access control
-- Exploring appointment-management functionality
-- Writing tests and documenting the API
+- Design data models for clinics, doctors, specialties, and locations
+- Choose and configure a Python backend framework and database
+- Build API endpoints for clinic data and search filters
+- Replace sample frontend data with data retrieved from the API
+- Add authentication and access control
+- Explore appointment-management functionality
+- Add tests and API documentation
 
-These items are planned work, not existing features. The backend design and implementation details will be updated as development progresses.
+These are planned tasks, not implemented features. The framework, database, and final API design will be documented as those decisions are made during development.
 
-## Development Approach
+## Development Goals
 
-Clinfay is being developed iteratively as a learning and portfolio project. The current frontend has been revised with AI assistance. The planned Python backend will be implemented as a separate development phase, with its progress documented in this repository.
+Clinfay will evolve in small, documented steps. The immediate goal is to build a working Python backend, learn the reasoning behind each design decision, and integrate it with the existing React interface.
 
 ---
 
-This project is under active development. Features and documentation may change as work continues.
+This project is under active development. Features and documentation may change as development progresses.
