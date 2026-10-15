@@ -6,9 +6,11 @@ Clinfay is a Persian-language clinic discovery website project. It aims to help 
 
 ## Project Background
 
-I originally started Clinfay when I was focused on frontend development and learning JavaScript. Since then, I have shifted my learning and career focus toward **backend development with Python**.
+I originally started Clinfay as a small frontend project built with **HTML, CSS, and some JavaScript**. At that time, I was focused on frontend development and learning JavaScript.
 
-I am returning to this existing project to build its backend as a hands-on learning and portfolio project, then connect it to the current frontend through APIs. My goal is to understand and implement the backend step by step rather than present planned functionality as if it were already complete.
+Later, I changed my learning and career focus toward **backend development with Python**. After changing direction, I used AI assistance to rewrite the existing frontend with React. I am now returning to Clinfay to build its Python backend myself and connect it to the frontend through APIs.
+
+The aim is to develop the backend step by step, understand the technical decisions behind it, and keep the documentation aligned with what is actually implemented.
 
 ## Current Frontend
 
@@ -100,7 +102,7 @@ These are planned tasks, not implemented features. The framework, database, and 
 
 ## Development Goals
 
-Clinfay will evolve in small, documented steps. The immediate goal is to build a working Python backend, learn the reasoning behind each design decision, and integrate it with the existing React interface.
+Clinfay will evolve in small, documented steps. The immediate goal is to build a working Python backend, understand the reasoning behind each design decision, and integrate it with the existing React interface.
 
 ---
 
