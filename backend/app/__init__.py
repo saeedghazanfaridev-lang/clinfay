@@ -1,1 +1,0 @@
-"""Clinfay backend application package."""
