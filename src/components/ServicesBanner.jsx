@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import starIcon from '../assets/image/iconstar.svg'
 import counselingIcon from '../assets/image/icon.svg'
 import calendarIcon from '../assets/image/iconcalander.svg'
@@ -10,19 +11,22 @@ const features = [
     icon: counselingIcon,
     title: 'مشاوره آنلاین',
     text: 'در خانه خود از بهترین متخصصان مشاوره تصویری بگیرید',
-    cta: 'دریافت مشاوره رایگان',
+    cta: 'مشاهده پزشکان آنلاین',
+    to: `/clinics?visit_type=${encodeURIComponent('آنلاین (ویدیو کال)')}`,
   },
   {
     icon: calendarIcon,
     title: 'نوبت‌دهی سریع',
     text: 'در چند کلیک نوبت حضوری یا آنلاین خود را رزرو کنید',
     cta: 'رزرو نوبت',
+    to: '/clinics',
   },
   {
     icon: searchIcon,
     title: 'جست‌وجوی هوشمند',
-    text: 'بر اساس تخصص، شهر و امتیاز، پزشک مناسب را پیدا کنید',
+    text: 'بر اساس تخصص، منطقه و امتیاز، پزشک مناسب را پیدا کنید',
     cta: 'جست‌وجوی پزشک',
+    to: '/clinics?sort=rating',
   },
 ]
 
@@ -36,10 +40,10 @@ function FeatureCard({ feature }) {
       <div className="flex-1">
         <h3 className="font-medium text-ink">{feature.title}</h3>
         <p className="mt-1 text-xs leading-relaxed text-ink/60">{feature.text}</p>
-        <button className="btn-link mt-2 !text-primary">
+        <Link to={feature.to} className="btn-link mt-2 !text-primary">
           {feature.cta}
           <img src={arrowLeftIcon} alt="" aria-hidden="true" className="h-3 w-3" />
-        </button>
+        </Link>
       </div>
     </div>
   )
@@ -47,7 +51,7 @@ function FeatureCard({ feature }) {
 
 export default function ServicesBanner() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-10">
+    <section id="services" className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-8 flex flex-col gap-2 text-center">
         <div className="flex items-center justify-center gap-2">
           <img src={starIcon} alt="" aria-hidden="true" className="h-4 w-4" />

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import loginIcon from '../assets/image/login-circle-line.svg'
 
 export default function Header() {
@@ -7,11 +8,10 @@ export default function Header() {
         <p className="text-ink/80">
           ورود به بخش اختصاصی <span className="font-medium text-primary">پزشکان و همکاران درمانی</span>
         </p>
-
-        <button className="btn-soft shadow-sm shrink-0 whitespace-nowrap">
+        <Link to="/login?role=doctor" className="btn-soft shadow-sm">
           <img src={loginIcon} alt="" aria-hidden="true" className="h-4 w-4" />
           <span>ورود به بخش</span>
-        </button>
+        </Link>
       </div>
     </header>
   )
