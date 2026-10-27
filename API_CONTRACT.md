@@ -1,103 +1,60 @@
-# قرارداد API (برای نوشتن بک‌اند FastAPI)
+# Frontend / backend API contract (proposal only)
 
-فرانت دقیقاً همین آدرس‌ها و فیلدها را انتظار دارد. وقتی بک‌اند آماده شد، فقط در فایل `.env` بنویسید:
+This document describes the API shape the current React frontend is prepared to consume. **It is not a backend implementation.** No routes, database, authentication service, or appointment service have been created by this document. The project owner will implement and verify each required endpoint as a learning step.
 
-```
-VITE_API_URL=http://localhost:8000/api/v1
-```
+The frontend uses local mock data while `VITE_API_URL` is empty. When the owner is ready to integrate a working endpoint, set `VITE_API_URL` (for local development, a value such as `http://localhost:8000/api/v1`) and switch over one feature at a time.
 
-(اگر `VITE_API_URL` خالی باشد، فرانت از داده‌ی آزمایشی داخل `src/api/mockData.js` استفاده می‌کند.)
+> Treat these fields and paths as a draft contract. Confirm them while implementing; do not assume an endpoint is available merely because it is listed here.
 
-> همه‌ی فیلدها `snake_case` هستند. همه‌ی پاسخ‌ها JSON هستند.
-> فایل‌های مرجع: `src/api/index.js` (فراخوانی‌ها) و `src/api/mockData.js` (نمونه‌ی دقیق پاسخ‌ها).
+## General expectations
 
-## قواعد عمومی
+- JSON request and response bodies.
+- Proposed authenticated requests use `Authorization: Bearer <access_token>`. Token strategy is a future security decision; the frontend currently uses localStorage, which must be reviewed before real user accounts are introduced.
+- Expected validation/error conventions should be confirmed during implementation. The frontend API client can display FastAPI's `detail` field.
+- CORS should allow only explicit local and deployed frontend origins.
+- Do not use real patient data or commit credentials/secrets while developing.
 
-- **احراز هویت:** هدر `Authorization: Bearer <access_token>`. توکن در `localStorage` ذخیره می‌شود. این یک تصمیم فعلی فرانت است و باید هنگام طراحی احراز هویت واقعی از نظر ریسک XSS و گزینه‌ی کوکی HttpOnly بررسی شود.
-- **خطاها:** فرمت پیش‌فرض FastAPI یعنی `{ "detail": "پیام فارسی" }` یا لیست خطاهای 422. پیام `detail` مستقیم به کاربر نشان داده می‌شود، پس **فارسی بنویسید**.
-- **CORS:** دامنه‌ی فرانت (`http://localhost:5173` و دامنه‌ی production) باید با تنظیم محدود و صریح مجاز باشد.
-- کد 401 یعنی توکن نامعتبر؛ فرانت توکن را پاک می‌کند.
+## Proposed endpoint list
 
-## Endpoints
+### Filter metadata
+- `GET /meta/filters`
+- Proposed response: `{ "specialties": [], "districts": [], "visit_types": [] }`
 
-### فیلترها
-`GET /meta/filters`
-```json
-{ "specialties": ["قلب و عروق", "اطفال"], "districts": ["پاسداران", "زند"], "visit_types": ["حضوری", "آنلاین (ویدیو کال)", "مشاوره تلفنی"] }
-```
+### Clinic catalog
+- `GET /clinics` with optional `specialty`, `district`, `visit_type`, `q`, `sort`, `featured`, `suggested`, `page`, and `limit`.
+- Proposed response: `{ "items": [Clinic], "total": 0 }`, where total means total results before pagination.
+- `GET /clinics/{id}` → one Clinic object.
+- `GET /clinics/{id}/slots?date=YYYY-MM-DD` → proposed `{ "slots": ["09:00"] }`.
 
-### کلینیک‌ها
-`GET /clinics` — پارامترهای اختیاری (همه با هم قابل ترکیب):
+### Reviews and blog
+- `GET /reviews?limit=3` → proposed `{ "items": [Review], "total": 0 }`.
+- `GET /blog` → proposed `{ "items": [BlogPost], "total": 0 }`.
+- `GET /blog/{id}` → one BlogPost, including content.
 
-| پارامتر | توضیح |
-|---|---|
-| `specialty`, `district`, `visit_type` | تطابق دقیق با مقادیر `/meta/filters` |
-| `q` | جست‌وجوی متنی در نام کلینیک/پزشک/تخصص/خدمات |
-| `sort` | `rating` یا `reviews` |
-| `featured=true` | کلینیک‌های بخش «بهترین مراکز» صفحه‌ی اصلی |
-| `suggested=true` | کلینیک‌های بخش «مراکز پیشنهادی» |
-| `page` (از ۱)، `limit` | صفحه‌بندی (فرانت `limit=6` می‌فرستد) |
+### Authentication (future)
+- `POST /auth/register` with `{ "name", "phone", "password" }`.
+- `POST /auth/login` with `{ "phone", "password" }`.
+- `GET /auth/me` to read the current authenticated user.
 
-پاسخ: `{ "items": [Clinic], "total": 9 }` — `total` تعداد **کل نتایج قبل از صفحه‌بندی** است.
+### Appointments (future)
+- `POST /appointments` with `{ "clinic_id", "date", "time", "visit_type", "note" }`.
+- `GET /appointments/me` for the current user's appointments.
+- `POST /appointments/{id}/cancel` to cancel an owned appointment.
 
-`GET /clinics/{id}` → یک `Clinic` یا 404 با `detail`.
+## Suggested Clinic fields
 
-**Clinic**
-```json
-{
-  "id": 1,
-  "name": "کلینیک قلب دکتر محمدحسین کمالی",
-  "doctor_name": "دکتر محمدحسین کمالی",
-  "specialty": "قلب و عروق",
-  "tags": ["قلب و عروق", "فوق تخصص"],
-  "district": "پاسداران",
-  "address": "شیراز، بلوار پاسداران ...",
-  "phone": "071-30000001",
-  "image_url": "https://.../clinic1.jpg",
-  "note": "ویزیت تخصصی، اکوکاردیوگرافی",
-  "description": "متن توضیح",
-  "rating": 4.8,
-  "reviews_count": 124,
-  "visit_types": ["حضوری", "آنلاین (ویدیو کال)"],
-  "working_hours": "شنبه تا چهارشنبه ۹ الی ۱۷"
-}
-```
-(`featured` و `suggested` فقط برای فیلتر سمت سرور لازم‌اند و لازم نیست در پاسخ باشند.)
+`id`, `name`, `doctor_name`, `specialty`, `tags`, `district`, `address`, `phone`, `image_url`, `note`, `description`, `rating`, `reviews_count`, `visit_types`, `working_hours`.
 
-### ساعت‌های خالی
-`GET /clinics/{id}/slots?date=YYYY-MM-DD` (تاریخ **میلادی**)
-```json
-{ "slots": ["09:00", "09:30", "16:00"] }
-```
-فقط ساعت‌های **رزروشده‌نشده** را برگردانید.
+## Suggested Appointment fields
 
-### نظرات و وبلاگ
-- `GET /reviews?limit=3` → `{ "items": [{ "id", "author_name", "text", "rating" }], "total" }`
-- `GET /blog` → `{ "items": [{ "id", "title", "summary", "image_url", "created_at" }], "total" }`
-- `GET /blog/{id}` → همان فیلدها + `"content"` (پاراگراف‌ها با یک خط خالی `\n\n` جدا می‌شوند)
+`id`, `clinic_id`, `clinic_name`, `date`, `time`, `visit_type`, `note`, `status`.
 
-### احراز هویت
-- `POST /auth/register` بدنه: `{ "name", "phone", "password" }` → `{ "access_token": "...", "user": { "id", "name", "phone", "role" } }`
-  - شماره تکراری → **409** با `detail`
-- `POST /auth/login` بدنه: `{ "phone", "password" }` → همان پاسخ بالا. اشتباه → **401** با `detail`
-- `GET /auth/me` → `{ "id", "name", "phone", "role" }` (نیاز به توکن)
+## Security work to do during implementation
 
-اعتبارسنجی فرانت: موبایل `^09\d{9}$` (ارقام فارسی قبل از ارسال به انگلیسی تبدیل می‌شوند)، رمز حداقل ۸ کاراکتر. **اعتبارسنجی سمت سرور هم الزامی است.**
+- Hash passwords using a maintained password-hashing library and never return/store plaintext passwords.
+- Validate every input on the server.
+- Check ownership for appointment history and cancellation.
+- Prevent simultaneous bookings of the same active slot with appropriate database constraints and transaction handling.
+- Rate-limit login attempts, configure secrets outside Git, and review token storage before real users are supported.
 
-### نوبت‌ها (همه نیازمند توکن)
-- `POST /appointments` بدنه: `{ "clinic_id", "date": "YYYY-MM-DD", "time": "HH:MM", "visit_type", "note" }`
-  → `Appointment`. اگر ساعت پر شده بود **409** با `detail` (فرانت لیست ساعت‌ها را دوباره می‌گیرد).
-- `GET /appointments/me` → `{ "items": [Appointment], "total" }` (جدیدترین اول)
-- `POST /appointments/{id}/cancel` → `Appointment` با `status: "cancelled"`. فقط نوبت خود کاربر.
-
-**Appointment**
-```json
-{ "id": 5, "clinic_id": 3, "clinic_name": "...", "date": "2026-11-02", "time": "09:30",
-  "visit_type": "حضوری", "note": "", "status": "confirmed" }
-```
-`status` یکی از: `pending`, `confirmed`, `cancelled`, `done`.
-
-## نکات امنیتی که سمت بک‌اند با شماست
-- هش رمز با bcrypt/argon2؛ هرگز رمز را در پاسخ برنگردانید.
-- جلوگیری از رزرو همزمان یک ساعت: قید داده‌بیس مناسب و تراکنش؛ قید ساده‌ی `UNIQUE(clinic_id, date, time)` باید با سیاست لغو/فعال بودن نوبت‌ها سازگار شود.
-- بررسی مالکیت نوبت در لغو؛ rate limit روی `/auth/login`.
+This contract can change as the owner implements and learns the real system.
