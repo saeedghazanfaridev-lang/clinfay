@@ -1,108 +1,82 @@
 # Clinfay
 
-Clinfay is a Persian-language clinic discovery website project. It aims to help people explore healthcare centers and find relevant providers by medical specialty, location, and visit type.
+Clinfay is a Persian-language clinic-discovery website. It aims to help people explore healthcare centers and find relevant providers by medical specialty, location, and visit type.
 
-> **Project status:** In progress. The current React frontend uses sample data. A Python backend is planned and has not been implemented yet.
+> **Project status:** The React frontend currently uses sample data. A first FastAPI backend foundation is being added in the `feat/backend-step-01-health-check` branch. Clinic search, database access, authentication, and appointment booking are not implemented yet.
 
 ## Project Background
 
-I originally started Clinfay as a small frontend project built with **HTML, CSS, and some JavaScript**. At that time, I was focused on frontend development and learning JavaScript.
+I originally started Clinfay as a small frontend project built with **HTML, CSS, and some JavaScript**. Later, I changed my learning and career focus toward **backend development with Python**. After changing direction, I used AI assistance to rewrite the existing frontend with React. I am now building the Python backend step by step and connecting it to the frontend through APIs.
 
-Later, I changed my learning and career focus toward **backend development with Python**. After changing direction, I used AI assistance to rewrite the existing frontend with React. I am now returning to Clinfay to build its Python backend myself and connect it to the frontend through APIs.
-
-The aim is to develop the backend step by step, understand the technical decisions behind it, and keep the documentation aligned with what is actually implemented.
+The aim is to understand the technical decisions, test each feature, and keep the documentation aligned with what is actually implemented.
 
 ## Current Frontend
 
-The current interface includes:
-
-- Persian-language, responsive page layout
-- Clinic cards with sample names, specialties, locations, and descriptions
-- UI controls for choosing a specialty, district, and visit type
-- Mobile navigation menu
-- Clinic-card carousel and homepage sections
-- Reusable React components and Tailwind CSS styling
-
-The frontend currently uses sample data. The search form is not connected to an API, and real clinic search, authentication, and appointment booking are not implemented.
+The current repository frontend includes a Persian-language interface, clinic cards with sample data, reusable React components, and responsive page styling. It is still a frontend prototype: search, authentication, and appointment booking are not yet backed by a real API.
 
 ## Technology Stack
 
-- **JavaScript**
-- **React 18**
-- **Vite**
-- **Tailwind CSS**
+- **Frontend:** JavaScript, React 18, Vite, Tailwind CSS
+- **Backend (in progress):** Python, FastAPI, Uvicorn, pytest
+- **Planned database:** PostgreSQL (not configured yet)
 
-## Run Locally
+## Run the Frontend
 
-### Requirements
-
-- Node.js
-- npm
-
-### Setup
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/saeedghazanfaridev-lang/clinfay.git
-   cd clinfay
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-
-   ```bash
-   npm run dev
-   ```
-
-4. Build the project:
-
-   ```bash
-   npm run build
-   ```
-
-To preview the production build locally, run:
+Requirements: Node.js and npm.
 
 ```bash
-npm run preview
+npm install
+npm run dev
 ```
 
-## Project Structure
+Build the frontend:
+
+```bash
+npm run build
+```
+
+## Run the Backend (feature branch)
+
+The first backend step adds `GET /api/v1/health`. It only proves the API process is responding; it is not a clinic API.
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+Then open `http://127.0.0.1:8000/docs` and call `GET /api/v1/health`.
+
+Run the automated test from the `backend` directory:
+
+```bash
+pytest -q
+```
+
+## Repository Structure
 
 ```text
-src/
-├── assets/       # Images, icons, and fonts
-├── components/   # Reusable UI components
-├── data/         # Sample frontend content
-├── App.jsx       # Main page composition
-├── index.css     # Global styles
-└── main.jsx      # React application entry point
+src/                    # React frontend
+backend/
+  app/main.py           # FastAPI application entry point
+  tests/                # Backend tests
+  requirements.txt      # Python development dependencies
+docs/backend-roadmap.md # Incremental implementation plan
 ```
 
 ## Backend Roadmap
 
-The next major phase is to build a backend with Python and connect it to the existing frontend through an API.
+1. **API foundation:** health endpoint and test.
+2. **Configuration and database:** environment-based settings, PostgreSQL, SQLAlchemy, and migrations.
+3. **Read-only clinic API:** clinic data, detail endpoints, filters, and pagination.
+4. **Authentication:** registration, login, password hashing, and access control.
+5. **Appointments:** availability, booking, ownership checks, and protection against duplicate slot booking.
+6. **Frontend integration:** replace sample data one endpoint at a time.
+7. **Delivery:** automated tests, Docker, deployment documentation, and security review.
 
-Planned work:
-
-- Design data models for clinics, doctors, specialties, and locations
-- Choose and configure a Python backend framework and database
-- Build API endpoints for clinic data and search filters
-- Replace sample frontend data with data retrieved from the API
-- Add authentication and access control
-- Explore appointment-management functionality
-- Add tests and API documentation
-
-These are planned tasks, not implemented features. The framework, database, and final API design will be documented as those decisions are made during development.
-
-## Development Goals
-
-Clinfay will evolve in small, documented steps. The immediate goal is to build a working Python backend, understand the reasoning behind each design decision, and integrate it with the existing React interface.
+These are planned stages, not claims that those features are already implemented. Every stage should be small, documented, and tested before moving on.
 
 ---
 
