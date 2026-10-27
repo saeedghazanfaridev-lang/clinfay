@@ -1,56 +1,85 @@
-# Clinfay Backend Roadmap
+# Backend implementation plan (not yet implemented)
 
-This roadmap tracks planned work, not features that already exist.
+This document is a learning and delivery plan for the project owner. It intentionally contains **no backend source code**. Each phase should be implemented by the owner and committed only after understanding and testing it.
 
-## Step 1 — API foundation
+## Rules for this project
 
-- [x] Add a minimal FastAPI application.
-- [x] Add `GET /api/v1/health`.
-- [x] Add a test for the health endpoint.
-- [ ] Run the tests locally and verify the endpoint in the interactive docs.
+- Do not generate or add backend implementation on the owner's behalf.
+- Work on one phase at a time. Read the relevant issue, implement it locally, run the checks, and commit the owner's own work.
+- Keep this roadmap updated as tasks are actually completed.
+- An unchecked item is planned work. Never mark a feature complete just because it has been described or discussed.
+- Use sample data only while developing; do not add real patient data, credentials, or secrets to Git.
 
-## Step 2 — Configuration and database
+## Phase 1 — FastAPI foundation
 
-- Add settings loaded from environment variables.
-- Add PostgreSQL connection settings and SQLAlchemy.
-- Add Alembic migrations.
-- Keep credentials out of Git; provide only a safe `.env.example`.
+- [ ] Create a Python virtual environment for the backend.
+- [ ] Learn how to create and run a minimal FastAPI application.
+- [ ] Add a versioned health endpoint (for example, `GET /api/v1/health`).
+- [ ] Open the generated OpenAPI docs and understand the request/response.
+- [ ] Write a test for the health endpoint and run it locally.
+- [ ] Document the run/test commands.
+- Tracking issue: create/link the Phase 1 GitHub issue.
 
-## Step 3 — Read-only clinic API
+## Phase 2 — Settings and PostgreSQL
 
-- Design the clinic and specialty data models.
-- Add seeded development fixtures, clearly marked as sample data.
-- Implement clinic listing, detail, and filter metadata endpoints.
-- Test filtering, pagination, invalid inputs, and missing clinic IDs.
+- [ ] Decide and document environment-based settings.
+- [ ] Set up a local PostgreSQL development database.
+- [ ] Choose and configure SQLAlchemy.
+- [ ] Learn and configure Alembic migrations.
+- [ ] Add connection/session management and test the database connection.
+- [ ] Ensure credentials remain outside source control (use a safe example file only).
 
-## Step 4 — Authentication
+## Phase 3 — Clinic catalog and filters
 
-- Define request/response schemas.
-- Hash passwords with a maintained password-hashing library.
-- Add register, login, and current-user endpoints.
-- Use short-lived tokens and keep secrets in environment configuration.
-- Add validation, rate limits for login, and tests for unauthorized access.
+- [ ] Model clinics and specialties based on the frontend's actual fields.
+- [ ] Decide how development sample rows will be loaded.
+- [ ] Implement the filter metadata endpoint.
+- [ ] Implement clinic listing with filters, search, sorting, and pagination.
+- [ ] Implement clinic detail with clear 404 behavior.
+- [ ] Test valid requests, invalid query parameters, and empty results.
+- [ ] Keep response JSON aligned with `API_CONTRACT.md`.
 
-## Step 5 — Appointments
+## Phase 4 — Authentication and authorization
 
-- Model availability slots and appointments.
-- Require authentication for booking and appointment history.
-- Check appointment ownership before cancellation.
-- Enforce slot uniqueness and booking concurrency at the database level.
-- Test duplicate booking and cross-user access.
+- [ ] Agree on request/response schemas and phone-number validation.
+- [ ] Implement registration and unique phone-number handling.
+- [ ] Hash passwords with a maintained password-hashing library; never store plaintext passwords.
+- [ ] Implement login and the current-user endpoint.
+- [ ] Choose token/session expiry and secret configuration deliberately.
+- [ ] Add login rate limiting and tests for invalid credentials and unauthorized requests.
+- [ ] Review the frontend's localStorage token approach before using real accounts.
 
-## Step 6 — Reviews, blog, and frontend integration
+## Phase 5 — Slots and appointments
 
-- Add endpoints only after their schemas and data requirements are agreed.
-- Replace frontend mock data one endpoint at a time.
-- Handle loading, empty, validation-error, and server-error states in the UI.
+- [ ] Model availability slots and appointments.
+- [ ] Implement listing of available slots for a clinic and date.
+- [ ] Implement authenticated booking and the user's own appointment list.
+- [ ] Prevent two users from booking the same active slot using database constraints/transactions.
+- [ ] Implement cancellation with an ownership check.
+- [ ] Test duplicate booking, invalid slots, cancellation, and cross-user access.
 
-## Step 7 — Delivery
+## Phase 6 — Reviews and blog
 
-- Add Docker and a local PostgreSQL development service.
-- Run automated checks in GitHub Actions.
-- Document environment variables, migrations, deployment steps, and known limitations.
+- [ ] Define review and blog schemas based on current frontend expectations.
+- [ ] Implement read-only list/detail endpoints where required.
+- [ ] Test pagination/limits and 404 behavior.
+- [ ] Only add write endpoints if the product requirements call for them.
 
-## Working agreement
+## Phase 7 — Connect frontend and verify
 
-Every step should have a small diff, a meaningful commit, passing tests, and a short explanation of the concepts used. Never document a planned feature as implemented.
+- [ ] Configure `VITE_API_URL` locally.
+- [ ] Connect one UI feature to one implemented endpoint at a time.
+- [ ] Test loading, empty, validation-error, unauthorized, and server-error states.
+- [ ] Verify CORS uses explicit development/production origins.
+- [ ] Add CI checks after there is real backend code and tests to run.
+
+## Phase 8 — Packaging and deployment
+
+- [ ] Add Docker only after the app and database work locally.
+- [ ] Document environment variables, database migration steps, and deployment.
+- [ ] Verify logs do not leak secrets or sensitive patient data.
+- [ ] Complete a security review before using real user or health information.
+
+## API contract
+
+[`API_CONTRACT.md`](../API_CONTRACT.md) is a proposed interface for connecting frontend and backend. It is not evidence that any endpoint exists. The implementation may refine the contract; update both the documentation and frontend only after the owner has made and tested that decision.
