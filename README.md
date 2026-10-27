@@ -1,109 +1,74 @@
 # Clinfay
 
-Clinfay is a Persian-language clinic discovery website project. It aims to help people explore healthcare centers and find relevant providers by medical specialty, location, and visit type.
+Clinfay is a Persian-language clinic discovery and appointment-booking **frontend prototype** for finding healthcare providers by specialty, district, and visit type.
 
-> **Project status:** In progress. The current React frontend uses sample data. A Python backend is planned and has not been implemented yet.
+> **Current status:** This repository contains the React frontend, sample data, an API client, and planning documentation. **No Python backend has been implemented.** The backend will be written by the project owner, one step at a time, using the roadmap and GitHub issues.
 
-## Project Background
+## Project background
 
-I originally started Clinfay as a small frontend project built with **HTML, CSS, and some JavaScript**. At that time, I was focused on frontend development and learning JavaScript.
+I started Clinfay as a small HTML/CSS/JavaScript frontend. Later, I focused my career direction on Python backend development and used AI assistance to rebuild the frontend with React. My next goal is to learn by implementing the backend myself, understanding each technical decision, and connecting the frontend to real APIs as each feature is completed.
 
-Later, I changed my learning and career focus toward **backend development with Python**. After changing direction, I used AI assistance to rewrite the existing frontend with React. I am now returning to Clinfay to build its Python backend myself and connect it to the frontend through APIs.
+## Current frontend
 
-The aim is to develop the backend step by step, understand the technical decisions behind it, and keep the documentation aligned with what is actually implemented.
+- Persian, right-to-left, responsive React interface
+- Homepage, clinic search/listing, clinic detail, blog, and login/register/appointments UI
+- Mock clinic, review, blog, and slot data so the interface can be explored before a backend exists
+- API client and API contract to guide later integration
 
-## Current Frontend
+The login, registration, and booking flows run in local mock mode while `VITE_API_URL` is empty. They are **not real authentication or production booking**.
 
-The current interface includes:
+## Tech stack
 
-- Persian-language, responsive page layout
-- Clinic cards with sample names, specialties, locations, and descriptions
-- UI controls for choosing a specialty, district, and visit type
-- Mobile navigation menu
-- Clinic-card carousel and homepage sections
-- Reusable React components and Tailwind CSS styling
+- **Implemented frontend:** React 18, React Router, Vite, Tailwind CSS
+- **Planned backend:** Python with FastAPI
+- **Planned data layer:** PostgreSQL, SQLAlchemy, and Alembic (choices to be confirmed as implementation begins)
 
-The frontend currently uses sample data. The search form is not connected to an API, and real clinic search, authentication, and appointment booking are not implemented.
+## Run the frontend
 
-## Technology Stack
-
-- **JavaScript**
-- **React 18**
-- **Vite**
-- **Tailwind CSS**
-
-## Run Locally
-
-### Requirements
-
-- Node.js
-- npm
-
-### Setup
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/saeedghazanfaridev-lang/clinfay.git
-   cd clinfay
-   ```
-
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-
-   ```bash
-   npm run dev
-   ```
-
-4. Build the project:
-
-   ```bash
-   npm run build
-   ```
-
-To preview the production build locally, run:
+Requirements: Node.js and npm.
 
 ```bash
+npm install
+npm run dev
+```
+
+Production build:
+
+```bash
+npm run build
 npm run preview
 ```
 
-## Project Structure
+The frontend uses built-in sample data while `VITE_API_URL` is empty. Example configuration is in `.env.example`. [API_CONTRACT.md](./API_CONTRACT.md) documents the expected frontend/backend interface; it is a **specification only**, not a working backend.
+
+## Repository structure
 
 ```text
-src/
-├── assets/       # Images, icons, and fonts
-├── components/   # Reusable UI components
-├── data/         # Sample frontend content
-├── App.jsx       # Main page composition
-├── index.css     # Global styles
-└── main.jsx      # React application entry point
+src/                     # React frontend
+src/api/                 # API client and mock data
+src/pages/               # Frontend routes
+docs/backend-roadmap.md  # Planned backend implementation steps
+API_CONTRACT.md          # Expected API behavior; not implemented yet
 ```
 
-## Backend Roadmap
+There is intentionally no `backend/` implementation directory in this branch. Future backend work should be done by the project owner in small, understandable steps and tested before moving to the next stage.
 
-The next major phase is to build a backend with Python and connect it to the existing frontend through an API.
+## Backend plan
 
-Planned work:
+1. [Phase 1 — FastAPI foundation](https://github.com/saeedghazanfaridev-lang/clinfay/issues/2)
+2. [Phase 2 — PostgreSQL and migrations](https://github.com/saeedghazanfaridev-lang/clinfay/issues/3)
+3. [Phase 3 — Clinic models and read-only API](https://github.com/saeedghazanfaridev-lang/clinfay/issues/4)
+4. [Phase 4 — Authentication and authorization](https://github.com/saeedghazanfaridev-lang/clinfay/issues/5)
+5. [Phase 5 — Availability and appointments](https://github.com/saeedghazanfaridev-lang/clinfay/issues/6)
+6. [Phase 6 — Reviews/blog and frontend integration](https://github.com/saeedghazanfaridev-lang/clinfay/issues/7)
+7. [Phase 7 — Security, automation, and deployment planning](https://github.com/saeedghazanfaridev-lang/clinfay/issues/8)
 
-- Design data models for clinics, doctors, specialties, and locations
-- Choose and configure a Python backend framework and database
-- Build API endpoints for clinic data and search filters
-- Replace sample frontend data with data retrieved from the API
-- Add authentication and access control
-- Explore appointment-management functionality
-- Add tests and API documentation
+The [full roadmap](./docs/backend-roadmap.md) is the checklist. A feature must not be described as implemented until you have written and tested it yourself.
 
-These are planned tasks, not implemented features. The framework, database, and final API design will be documented as those decisions are made during development.
+## Security note
 
-## Development Goals
-
-Clinfay will evolve in small, documented steps. The immediate goal is to build a working Python backend, understand the reasoning behind each design decision, and integrate it with the existing React interface.
+The current frontend mock mode is for development only. Mock account information and tokens are stored in browser local storage; this is not suitable for real patient data. Do not enter real patient or medical information into this prototype. Security decisions for the real backend belong to the implementation phase.
 
 ---
 
-This project is under active development. Features and documentation may change as development progresses.
+This project is under active development. The backend is planned, not implemented.

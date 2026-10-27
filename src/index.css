@@ -73,6 +73,15 @@ button:focus-visible,
   .btn-link {
     @apply inline-flex items-center gap-1.5 text-xs font-medium text-ink/60 transition hover:text-primary;
   }
+  .btn-primary:disabled,
+  .btn-outline:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+  /* shared text field / select / textarea style */
+  .input {
+    @apply w-full rounded-xl border border-surface-blue bg-white px-4 py-2.5 text-sm text-ink
+      transition placeholder:text-ink/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
