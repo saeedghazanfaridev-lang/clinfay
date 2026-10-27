@@ -51,23 +51,23 @@ docs/backend-roadmap.md  # Planned backend implementation steps
 API_CONTRACT.md          # Expected API behavior; not implemented yet
 ```
 
-There is intentionally no `backend/` implementation directory in this branch. Future backend work should be done by the project owner in small, understandable steps and reviewed/tested before moving to the next stage.
+There is intentionally no `backend/` implementation directory in this branch. Future backend work should be done by the project owner in small, understandable steps and tested before moving to the next stage.
 
-## Planned backend roadmap
+## Backend plan
 
-1. **FastAPI foundation:** learn the application entry point, define a health endpoint, and verify it locally.
-2. **Configuration and database:** environment variables, PostgreSQL connection, SQLAlchemy models, and migrations.
-3. **Clinic catalog API:** filters, clinic list/detail, search, and pagination.
-4. **Authentication:** registration, login, password hashing, token/session handling, and authorization.
-5. **Appointments:** availability slots, booking, cancellation, ownership checks, and prevention of double-booking.
-6. **Reviews and blog APIs:** define and implement read endpoints.
-7. **Integration and delivery:** connect one frontend feature at a time, add tests, then consider Docker and deployment.
+1. [Phase 1 — FastAPI foundation](https://github.com/saeedghazanfaridev-lang/clinfay/issues/2)
+2. [Phase 2 — PostgreSQL and migrations](https://github.com/saeedghazanfaridev-lang/clinfay/issues/3)
+3. [Phase 3 — Clinic models and read-only API](https://github.com/saeedghazanfaridev-lang/clinfay/issues/4)
+4. [Phase 4 — Authentication and authorization](https://github.com/saeedghazanfaridev-lang/clinfay/issues/5)
+5. [Phase 5 — Availability and appointments](https://github.com/saeedghazanfaridev-lang/clinfay/issues/6)
+6. [Phase 6 — Reviews/blog and frontend integration](https://github.com/saeedghazanfaridev-lang/clinfay/issues/7)
+7. [Phase 7 — Security, automation, and deployment planning](https://github.com/saeedghazanfaridev-lang/clinfay/issues/8)
 
-The [full roadmap](./docs/backend-roadmap.md) and GitHub issues are the working checklist. A feature must not be described as implemented until you have written and tested it yourself.
+The [full roadmap](./docs/backend-roadmap.md) is the checklist. A feature must not be described as implemented until you have written and tested it yourself.
 
 ## Security note
 
-The current frontend mock mode is for development only. Mock account information and tokens are kept in browser local storage; this is not suitable for real patient data. Do not enter real patient or medical information into this prototype. Security decisions for the real backend will be part of the learning and implementation work.
+The current frontend mock mode is for development only. Mock account information and tokens are stored in browser local storage; this is not suitable for real patient data. Do not enter real patient or medical information into this prototype. Security decisions for the real backend belong to the implementation phase.
 
 ---
 
