@@ -1,26 +1,29 @@
 # Clinfay
 
-Clinfay is a Persian-language clinic-discovery website. It aims to help people explore healthcare centers and find relevant providers by medical specialty, location, and visit type.
+Clinfay is a Persian-language clinic discovery and appointment-booking frontend for finding healthcare providers by specialty, district, and visit type.
 
-> **Project status:** The React frontend currently uses sample data. A first FastAPI backend foundation is being added in the `feat/backend-step-01-health-check` branch. Clinic search, database access, authentication, and appointment booking are not implemented yet.
+> **Current status:** The updated React frontend is present on this feature branch. It uses sample data by default. The Python backend currently implements only a health-check endpoint; clinic APIs, real authentication, PostgreSQL, and appointment booking are future steps.
 
-## Project Background
+## Project background
 
-I originally started Clinfay as a small frontend project built with **HTML, CSS, and some JavaScript**. Later, I changed my learning and career focus toward **backend development with Python**. After changing direction, I used AI assistance to rewrite the existing frontend with React. I am now building the Python backend step by step and connecting it to the frontend through APIs.
+I started Clinfay as a small HTML/CSS/JavaScript frontend. Later, I focused my career direction on Python backend development and used AI assistance to rebuild the frontend with React. My goal now is to build the backend myself, step by step, understand the design decisions, and connect the frontend to a real API.
 
-The aim is to understand the technical decisions, test each feature, and keep the documentation aligned with what is actually implemented.
+## Current frontend
 
-## Current Frontend
+- Persian, right-to-left, responsive React interface
+- Homepage, clinic search/listing, clinic details, blog, login/register UI, and appointments UI
+- Mock clinic, review, blog, and slot data so the interface can be explored before the real backend is ready
+- API client and contract prepared for later integration with FastAPI
 
-The current repository frontend includes a Persian-language interface, clinic cards with sample data, reusable React components, and responsive page styling. It is still a frontend prototype: search, authentication, and appointment booking are not yet backed by a real API.
+The login, registration, and booking flows run in local mock mode while `VITE_API_URL` is empty. They are **not real, production authentication or booking**.
 
-## Technology Stack
+## Tech stack
 
-- **Frontend:** JavaScript, React 18, Vite, Tailwind CSS
-- **Backend (in progress):** Python, FastAPI, Uvicorn, pytest
-- **Planned database:** PostgreSQL (not configured yet)
+- **Frontend:** React 18, React Router, Vite, Tailwind CSS
+- **Backend in progress:** Python, FastAPI, Uvicorn, pytest
+- **Database planned:** PostgreSQL (not yet configured)
 
-## Run the Frontend
+## Run the frontend
 
 Requirements: Node.js and npm.
 
@@ -29,15 +32,18 @@ npm install
 npm run dev
 ```
 
-Build the frontend:
+Production build:
 
 ```bash
 npm run build
+npm run preview
 ```
 
-## Run the Backend (feature branch)
+The frontend uses its built-in sample data if `VITE_API_URL` is empty. Example configuration is in `.env.example`. The expected API contract is documented in [API_CONTRACT.md](./API_CONTRACT.md).
 
-The first backend step adds `GET /api/v1/health`. It only proves the API process is responding; it is not a clinic API.
+## Run the backend
+
+From the repository root:
 
 ```bash
 cd backend
@@ -47,37 +53,49 @@ python -m pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Then open `http://127.0.0.1:8000/docs` and call `GET /api/v1/health`.
+Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs), then call `GET /api/v1/health`.
 
-Run the automated test from the `backend` directory:
+Run the backend test:
 
 ```bash
+cd backend
 pytest -q
 ```
 
-## Repository Structure
+Expected health response:
 
-```text
-src/                    # React frontend
-backend/
-  app/main.py           # FastAPI application entry point
-  tests/                # Backend tests
-  requirements.txt      # Python development dependencies
-docs/backend-roadmap.md # Incremental implementation plan
+```json
+{ "status": "ok", "service": "clinfay-api" }
 ```
 
-## Backend Roadmap
+## Project structure
+
+```text
+src/                     # React frontend
+src/api/                 # API client and mock data
+src/pages/               # Frontend routes
+backend/app/main.py      # FastAPI application
+backend/tests/           # Backend tests
+docs/backend-roadmap.md  # Incremental backend roadmap
+API_CONTRACT.md          # Frontend/backend contract
+```
+
+## Backend roadmap
 
 1. **API foundation:** health endpoint and test.
-2. **Configuration and database:** environment-based settings, PostgreSQL, SQLAlchemy, and migrations.
-3. **Read-only clinic API:** clinic data, detail endpoints, filters, and pagination.
+2. **Configuration and database:** environment settings, PostgreSQL, SQLAlchemy, and migrations.
+3. **Read-only clinic API:** clinic data, details, filters, and pagination.
 4. **Authentication:** registration, login, password hashing, and access control.
-5. **Appointments:** availability, booking, ownership checks, and protection against duplicate slot booking.
-6. **Frontend integration:** replace sample data one endpoint at a time.
-7. **Delivery:** automated tests, Docker, deployment documentation, and security review.
+5. **Appointments:** availability, booking, ownership checks, and protection against double booking.
+6. **Frontend integration:** switch from mock data to the real API one endpoint at a time.
+7. **Delivery:** automated checks, Docker, deployment, and security review.
 
-These are planned stages, not claims that those features are already implemented. Every stage should be small, documented, and tested before moving on.
+The full checklist is in [docs/backend-roadmap.md](./docs/backend-roadmap.md). Features are not considered implemented until their code and tests exist.
+
+## Security note
+
+The current mock frontend is for development only. It stores mock account information in browser local storage, and the API client currently stores a bearer token in local storage. Before a production release, the real backend must use secure password hashing, server-side validation, authorization/ownership checks, rate limiting, and transaction-safe appointment booking. Do not enter real patient or medical information into this prototype.
 
 ---
 
-This project is under active development. Features and documentation may change as development progresses.
+This project is under active development. Each backend step should remain small, documented, and tested.
